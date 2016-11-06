@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>TodoMVC</title>
+		<!--<link rel="stylesheet" href="node_modules/todomvc-common/base.css">-->
+		<!--<link rel="stylesheet" href="./node_modules/todomvc-app-css/index.css">-->
+		<link rel="stylesheet" href="./css/index.css">
+		<!-- CSS overrides - remove if you don't need it -->
+		<link rel="stylesheet" href="./css/app.css">
+	</head>
+	<body ng-app="todomvcApp" ng-controller="mainCtrl">
+		<section class="todoapp">
+			<header class="header">
+				<h1>{{title}}</h1>
+				<form ng-submit="appendList()">
+					<input class="new-todo" ng-model="text" placeholder="添加备忘" autofocus>
+				</form>
+			</header>
+			<!-- This section should be hidden by default and shown when there are todos -->
+			<section class="main">
+				<input class="toggle-all" type="checkbox" ng-click="toggleComplate()" ng-model='checkAll'>
+				<label for="toggle-all">Mark all as complete</label>
+				<ul class="todo-list">
+					<!-- These are here just to show the structure of the list items -->
+					<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+					<li ng-repeat="todo in todos|filter:todosFilter track by $index" ng-class="{completed:todo.complated,editing:todo.id==editingIndex}"  focus>
+						<div class="view">
+							<input class="toggle" type="checkbox" ng-model="todo.complated" ng-click="save()" >
+							<label ng-dblclick="dbcChangeTex(todo)">{{todo.text}}</label>
+							<button class="destroy" ng-click="del()"></button>
+						</div>
+						<form ng-submit="changeText(todo)">
+							<input class="edit" value="" ng-model="todo.text" ng-blur="changeText(todo)">
+						</form>
+
+					</li>
+				</ul>
+			</section>
+			<!-- This footer should hidden by default and shown when there are todos -->
+			<footer class="footer">
+				<!-- This should be `0 items left` by default -->
+				<span class="todo-count"><strong>{{itemLeftNum()}}</strong> 项未完成备忘</span>
+				<!-- Remove this if you don't implement routing -->
+				<ul class="filters">
+					<li>
+						<a ng-class="{selected:todosFilter.complated===undefined}" href="#/">所有备忘</a>
+					</li>
+					<li>
+						<a href="#/active"  ng-class="{selected:todosFilter.complated===false}">未完成备忘</a>
+					</li>
+					<li>
+						<a href="#/completed"  ng-class="{selected:todosFilter.complated===true}">已完成备忘</a>
+					</li>
+				</ul>
+				<!-- Hidden if no completed items are left ↓ -->
+				<button class="clear-completed" ng-click="delAllComplate()">清除已完成备忘</button>
+			</footer>
+		</section>
+		<footer class="info">
+			<p>双击任务项修改任务名称</p>
+			<!-- Remove the below line ↓ -->
+			<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+			<!-- Change this out with your name and url ↓ -->
+			<p>Created by <a href="https://github.com/xsweb">xs</a></p>
+			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		</footer>
+		<!-- Scripts here. Don't remove ↓ -->
+		<!--<script src="node_modules/todomvc-common/base.js"></script>-->
+		<!--<script src="./node_modules/angular/angular.js"></script>-->
+		<script src="./js/angular.js"></script>
+		<script src="./js/app.js"></script>
+		<script src="./js/controller.js"></script>
+		<script src="./js/directive.js"></script>
+	</body>
+</html>
